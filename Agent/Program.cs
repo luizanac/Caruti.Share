@@ -51,7 +51,8 @@ var inputTask = Task.Run(async () =>
             case "MouseClick":
             {
                 simulator.SimulateMousePress(MouseButton.Button1);
-                // simulator.SimulateMouseRelease(MouseButton.Button1);
+                await Task.Delay(50);
+                simulator.SimulateMouseRelease(MouseButton.Button1);
                 break;
             }
             case "MouseMove":
