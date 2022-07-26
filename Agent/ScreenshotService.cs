@@ -6,35 +6,8 @@ namespace Agent;
 
 public class ScreenshotService
 {
-    // public async Task<byte[]> GetImageBytes(string fileName)
-    // {
-    //     var argument = $"ffmpeg -f gdigrab -i desktop -an -frames:v 1 -q:v 1 {fileName} -y";
-    //
-    //     var cmd = new Process
-    //     {
-    //         StartInfo = new ProcessStartInfo
-    //         {
-    //             FileName = "powershell",
-    //             Arguments = argument,
-    //             RedirectStandardInput = false,
-    //             RedirectStandardOutput = false,
-    //             CreateNoWindow = false,
-    //             UseShellExecute = false
-    //         }
-    //     };
-    //     cmd.Start();
-    //     await cmd.WaitForExitAsync();
-    //     await using var fileStream = File.OpenRead(fileName);
-    //     using var memoryStream = new MemoryStream();
-    //     await fileStream.CopyToAsync(memoryStream);
-    //     return memoryStream.ToArray();
-    // }    
-
-    public byte[] GetImageBytes(string fileName)
+    public byte[] GetImageBytes()
     {
-        const int width = 2560;
-        const int height = 1080;
-
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return Array.Empty<byte>();
 
         var image = WindowsScreenCapture.CaptureDesktop();

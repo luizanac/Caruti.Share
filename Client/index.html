@@ -13,21 +13,60 @@
         * {
             margin: 0;
         }
+
+        img {
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
         #app-image {
-            width: 100%;
-            height: 100%;
+            width: 1366px;
+            height: 768px;
         }
     </style>
-    <img id="app-image" alt="">
+    <img width="1366" height="768" id="app-image" alt="">
     <script>
-        var socket = new WebSocket("ws://localhost:5118/ws")
-        socket.onopen = function (event) {
-            console.log("opend")
+        var socket = new WebSocket("ws://localhost:5118/ws");
+        var image = document.getElementById("app-image");
+
+        let mouseDown = false;
+        image.onclick = event => {
+            let contract = new Contract("MouseClick", { x: event.layerX, y: event.layerY });
+            console.log(event)
+            socket.send(JSON.stringify(contract));
         }
-        
-        socket.onmessage = function (event) {
-            var image = document.getElementById("app-image");
+
+        image.onmousemove = event => {
+            console.log(event)
+            if (mouseDown) {
+                let contract = new Contract("MouseDrag", { x: event.layerX, y: event.layerY });
+                socket.send(JSON.stringify(contract));
+            } else {
+                let contract = new Contract("MouseMove", { x: event.layerX, y: event.layerY });
+                socket.send(JSON.stringify(contract));
+            }
+        }
+
+        image.onmousedown = event => {
+            mouseDown = true;
+        }
+
+        image.onmouseup = event => {
+            mouseDown = false;
+        }
+
+        socket.onmessage = event => {
             image.src = "data:image/jpeg;base64," + event.data;
+        }
+
+        class Contract {
+            constructor(event, data) {
+                this.event = event;
+                this.data = data;
+            }
         }
     </script>
 </body>
