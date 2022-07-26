@@ -6,7 +6,7 @@ using SharpHook.Native;
 
 var service = new ScreenshotService();
 
-var host = new Uri("ws://localhost:5118/ws");
+var host = new Uri("ws://10.0.0.147:5118/ws");
 var socket = new ClientWebSocket();
 await socket.ConnectAsync(host, CancellationToken.None);
 var tokenSource = new CancellationTokenSource();
